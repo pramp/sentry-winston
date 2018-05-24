@@ -49,13 +49,13 @@ export default class WinstonSentry extends Winston.Transport{
             error = msg;
         }
 
-        if (meta.request) {
+        if (meta && meta.request) {
             extra.request = meta.request;
-        } else if (meta.req) {
+        } else if (meta && meta.req) {
             extra.request = meta.req;
         }
 
-        if (meta.user) {
+        if (meta && meta.user) {
             extra.user = meta.user;
         }
 
