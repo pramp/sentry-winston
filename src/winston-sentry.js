@@ -39,7 +39,7 @@ export default class WinstonSentry extends Winston.Transport{
         }
 
         if (meta && meta.info) {
-            extra.info = meta.info;
+            extra.extraInfo = meta.info;
         }
 
         if (meta && meta.error && isError(meta.error)) {
