@@ -1,6 +1,6 @@
 {
   "name": "sentry-winston",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A winston transport that sends stuff to sentry.",
   "main": "./lib/winston-sentry.js",
   "scripts": {
