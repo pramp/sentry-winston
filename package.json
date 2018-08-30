@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/pramp/sentry-winston.git"
+    "url": "git+ssh://git@github.com/pramp/sentry-winston.git"
   },
   "keywords": [
     "sentry",
@@ -16,7 +16,7 @@
   ],
   "author": "Omer Gelbard",
   "license": "Apache-2.0",
-  "homepage": "https://gitlab.com/pramp/sentry-winston#readme",
+  "homepage": "https://github.com/pramp/sentry-winston#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
