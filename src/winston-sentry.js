@@ -8,10 +8,10 @@
  *
  */
 
-import Winston from 'winston';
 import {isError} from 'core-util-is';
+import Transport from 'winston-transport';
 
-export default class WinstonSentry extends Winston.Transport{
+export default class WinstonSentry extends Transport {
     constructor(options) {
         super(options);
         const {sentry, level, name} = options;
@@ -21,49 +21,50 @@ export default class WinstonSentry extends Winston.Transport{
     }
 
     /**
-     *  Pass errors in the meta.error fields.
-     *  Pass additional data in meta.info.
+     * @param {Object} info
+     * @param {string} info.level
+     * @param {string} info.message
+     * @param {Error}  [info.error]
+     * @param {string} [info.fullStack]
+     * @param {Object} [info.info]
+     * @param {Object} [info.meta]
+     * @param {Function} callback
      */
-    log = (level, msg, meta, callback) => {
-        let extra = {};
-        let error;
+    log(info, callback) {
+        setImmediate(() => {
+            // noinspection JSUnresolvedFunction
+            this.emit('logged', info);
+        });
 
-        // handle when meta field isn't included
-        if (typeof(meta) === 'function' && !callback) {
-            callback = meta;
-            meta = false;
-        }
+        const {message, error, info: extra, meta} = info;
+        let err;
+        let args = {extra};
 
         if (!this.sentry) {
-            return callback(null, true);
+            callback && callback();
+            return;
         }
 
-        if (meta && meta.info) {
-            extra.extra = meta.info;
-        }
-
-        if (meta && meta.error && isError(meta.error)) {
-            error = meta.error;
-            extra.message = msg;
+        if (error && isError(error)) {
+            err = error;
+            args.message = message;
         } else {
-            error = msg;
+            err = message;
         }
 
         if (meta && meta.request) {
-            extra.request = meta.request;
+            args.request = meta.request;
         } else if (meta && meta.req) {
-            extra.request = meta.req;
+            args.request = meta.req;
         }
 
         if (meta && meta.user) {
-            extra.user = meta.user;
+            args.user = meta.user;
         }
 
         // noinspection JSUnresolvedFunction
-        this.sentry.captureException(error, extra);
+        this.sentry.captureException(err, args);
 
-        // noinspection JSUnresolvedFunction
-        this.emit('logged');
-        callback(null, true);
-    };
+        callback && callback();
+    }
 }
