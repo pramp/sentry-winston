@@ -1,6 +1,6 @@
 {
   "name": "sentry-winston",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "A winston transport that sends stuff to sentry.",
   "main": "./lib/winston-sentry.js",
   "scripts": {
@@ -20,21 +20,22 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0"
-  },
-  "peerDependencies": {
-    "winston": ">= 2.4.2"
   },
   "babel": {
     "presets": [
-      "env"
-    ],
-    "plugins": [
-      "transform-class-properties"
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
     ]
   },
   "dependencies": {
-    "core-util-is": "latest"
+    "core-util-is": "latest",
+    "winston-transport": "4.2.0"
   }
 }

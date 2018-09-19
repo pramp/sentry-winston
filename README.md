@@ -12,16 +12,23 @@ $ npm install --save sentry-winston
 
 ```js
 var WinstonSentryTransport = require('sentry-winston').default;
-this.logger.add(WinstonSentryTransport, {sentry:sentryInstance}, false);
+this.logger.add(new WinstonSentryTransport({sentry}));
 ```
 ```js
 this.logger.log(level, "This is a message");
-this.logger.log(level, "This is an error", {error:new Error("I'm an error")});
+this.logger.log(level, new Error("I'm an error"));
 ```
 ```js
+var info = {extraInfo: "extra info should be in an info field"};
+this.logger.log(level, {message: "This is a message", info});
+
 var error = new Error("I'm an error");
 var info = {extraInfo: "extra info should be in an info field"};
-this.logger.log(level, "This is an error with extra metadata", {error, info});
+this.logger.log(level, {message: error, info});
+
+var error = new Error("I'm an error");
+error.info = {extraInfo: "extra info should be in an info field"};
+this.logger.log(level, error);
 ```
 
 ## License
